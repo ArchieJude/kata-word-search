@@ -141,7 +141,57 @@ int testFive(const std::string& fileName) {
 	
 }
 
+int testSix(const std::string& fileName) {
+	/*
+	Test Number 6:
+		Individually parse out the words in the first line and save it in a list.
+	*/
+	fstream fileStream;
+	fileStream.open(fileName);
+	vector<string> wordList; //this will hold words to be looked for.
 
+	for (std::string line; std::getline(fileStream, line);) {
+		/*
+		std::cout << line<<" ";
+		std::cout << line.size() << std::endl;
+		*/
+		if (line.size() > 0) { // way to overcome newlines
+			int indexS = 0; //index start
+			int indexE = 0; //index end
+			// above variables will be used to split the line:
+			// line.substr(indexB:indexE)
+			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
+
+			for (char c : line) {
+				//std::cout << c << std::endl;
+
+				if (c == ',') {
+					//std::cout << line.substr(indexS, indexE-indexS) << std::endl;
+					//std::cout << line.substr(indexS, indexE) << std::endl;
+					wordList.push_back(line.substr(indexS, indexE - indexS));
+					indexS = indexE + 1;
+				}
+
+				indexE++;
+
+			}
+
+		}
+
+		if (wordList.size() != 0) { // this line stops the loop from continuing when the search words are extracted.
+
+			for (auto item : wordList) {
+				std::cout << item << std::endl;
+
+			}
+
+			return 1;
+		}
+	}
+
+	return 0;
+
+}
 int main() {
 	string fileName = "input.txt";
 	/*
@@ -149,7 +199,8 @@ int main() {
 	std::cout << fileOpen(fileName) << std::endl;
 	std::cout << testThree(fileName) << std::endl;
 	std::cout << testFour(fileName) << std::endl;
-	*/
 	std::cout << testFive(fileName) << std::endl;
+	*/
+	std::cout << testSix(fileName) << std::endl;
 	
 }
