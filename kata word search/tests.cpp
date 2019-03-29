@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 using namespace std;
 
-int testOne(const std::string& fileName) {
+int fileExist(const std::string& fileName) {
 	/*
 	Test Number 1:
 		Does the input data file exist?
@@ -17,7 +17,7 @@ int testOne(const std::string& fileName) {
 	return (stat(fileName.c_str(), &buffer) == 0);
 
 }
-int testTwo(const std::string& fileName) {
+int fileOpen(const std::string& fileName) {
 	/*
 	Test Number 2:
 		Can the input data file be opened?
@@ -27,10 +27,12 @@ int testTwo(const std::string& fileName) {
 	*/
 	fstream fileStream;
 	fileStream.open(fileName);
+	
 	if (fileStream.fail()) {
 
 		//file doesn't exist
 		return 0;
+
 	}
 	else {
 
@@ -41,8 +43,31 @@ int testTwo(const std::string& fileName) {
 
 }
 
+int testThree(const std::string& fileName) {
+/*
+	Test Number 3:
+		Can it read the data file?
+
+*/
+
+	if (fileExist(fileName) == 1 && fileOpen(fileName) == 1) {
+		fstream fileStream;
+		fileStream.open(fileName);
+
+
+		for (std::string line; std::getline(fileStream, line);) {
+			std::cout << line << std::endl;
+		}
+
+		return 1;
+	}
+
+}
+
 int main() {
 	string fileName = "input.txt";
-	std::cout << testOne(fileName) << std::endl;
-	std::cout << testTwo(fileName) << std::endl;
+	std::cout << fileExist(fileName) << std::endl;
+	std::cout << fileOpen(fileName) << std::endl;
+
+	testThree(fileName);
 }
