@@ -62,12 +62,44 @@ int testThree(const std::string& fileName) {
 		return 1;
 	}
 
+	else {
+		return 0;
+	}
 }
 
+
+int testFour(const std::string& fileName) {
+	/*
+		Test Number 4:
+		Check if the file is empty or not.
+	*/
+
+	fstream fileStream;
+	fileStream.open(fileName);
+	int lineCount = 0;
+
+	for (std::string line; std::getline(fileStream, line);) {
+		if (line.size() > 0) { // way to overcome newlines
+			lineCount++;
+		}
+	}
+
+	if (lineCount == 0) {
+		//file is empty
+		return 0;
+	}
+	else {
+		return 1;
+	}
+
+}
 int main() {
 	string fileName = "input.txt";
+	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
+	std::cout << testThree(fileName) << std::endl;
+	*/
 
-	testThree(fileName);
+	std::cout << testFour(fileName) << std::endl;
 }
