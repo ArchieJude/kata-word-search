@@ -196,7 +196,7 @@ int testSix(const std::string& fileName) {
 int testSeven(const std::string& fileName) {
 	/*
 	Test Number 7:
-		Iterate through the grid
+		Iterate through the "grid"... it's actually just iterating through one dimensional string.
 
 		abc
 		def   => a,b,c,d,e,f,j,k,l
@@ -222,6 +222,58 @@ int testSeven(const std::string& fileName) {
 	}
 	return 0;
 }
+
+int testEight(const std::string& fileName) {
+	/*
+	Test Number 8:
+		Produce a grid or 2 dimensional matrix that contains all the characters to be searched through
+	*/
+
+
+	vector< vector<char> > charGrid;
+
+	
+
+	fstream fileStream;
+	fileStream.open(fileName);
+	float lineCount = 0;
+	float avgCharCount = 0;
+	int y = 0;
+
+
+	for (std::string line; std::getline(fileStream, line);) {
+		
+		if (line.size() > 0) { // way to overcome newlines
+		
+			if (lineCount >= 1) { //exclude the first line because it contains the words to be searched
+			
+				vector<char> temp;
+				for (char c : line) {
+			
+					if (c != ',') {
+						temp.push_back(c);
+					}
+					
+				}
+				charGrid.push_back(temp);
+			}
+			lineCount++;
+			
+		}
+
+		
+		
+	}
+
+	for (int y = 0; y < charGrid.size(); y++) {
+		for (int x = 0; x < charGrid[y].size(); x++) {
+			std::cout << charGrid[y][x];
+		}
+		std::cout << endl;
+	}
+	return 0;
+
+}
 int main() {
 	string fileName = "input.txt";
 	/*
@@ -233,7 +285,7 @@ int main() {
 	std::cout << testSix(fileName) << std::endl;
 	std::cout << testSeven(fileName) << std::endl;
 	*/
-	
+	std::cout << testEight(fileName) << std::endl;
 	
 	
 }
