@@ -192,6 +192,36 @@ int testSix(const std::string& fileName) {
 	return 0;
 
 }
+
+int testSeven(const std::string& fileName) {
+	/*
+	Test Number 7:
+		Iterate through the grid
+
+		abc
+		def   => a,b,c,d,e,f,j,k,l
+		jkl
+
+	*/
+
+	fstream fileStream;
+	fileStream.open(fileName);
+	float lineCount = 0;
+	float avgCharCount = 0;
+	for (std::string line; std::getline(fileStream, line);) {
+		if (line.size() > 0) { // way to overcome newlines
+			if (lineCount >= 1) { //exclude the first line because it contains the words to be searched
+				for (char c : line) {
+					if (c != ',') {
+						std::cout << c << std::endl;
+					}
+				}
+			}
+			lineCount++;
+		}
+	}
+	return 0;
+}
 int main() {
 	string fileName = "input.txt";
 	/*
@@ -200,7 +230,10 @@ int main() {
 	std::cout << testThree(fileName) << std::endl;
 	std::cout << testFour(fileName) << std::endl;
 	std::cout << testFive(fileName) << std::endl;
-	*/
 	std::cout << testSix(fileName) << std::endl;
+	std::cout << testSeven(fileName) << std::endl;
+	*/
+	
+	
 	
 }
