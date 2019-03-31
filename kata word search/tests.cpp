@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <sys/stat.h>
+#include <map>
 using namespace std;
 
 int fileExist(const std::string& fileName) {
@@ -230,9 +231,9 @@ int testEight(const std::string& fileName) {
 	*/
 
 
-	vector< vector<char> > charGrid;
+	std::vector< std::vector<char> > charGrid;
 
-	
+
 
 	fstream fileStream;
 	fileStream.open(fileName);
@@ -242,27 +243,27 @@ int testEight(const std::string& fileName) {
 
 
 	for (std::string line; std::getline(fileStream, line);) {
-		
+
 		if (line.size() > 0) { // way to overcome newlines
-		
+
 			if (lineCount >= 1) { //exclude the first line because it contains the words to be searched
-			
-				vector<char> temp;
+
+				std::vector<char> temp;
 				for (char c : line) {
-			
+
 					if (c != ',') {
 						temp.push_back(c);
 					}
-					
+
 				}
 				charGrid.push_back(temp);
 			}
 			lineCount++;
-			
+
 		}
 
-		
-		
+
+
 	}
 
 	for (int y = 0; y < charGrid.size(); y++) {
@@ -274,6 +275,70 @@ int testEight(const std::string& fileName) {
 	return 0;
 
 }
+
+vector< vector<char> > getCharGrid(const std::string& fileName) {
+	std::vector< vector<char> > charGrid;
+	fstream fileStream;
+	fileStream.open(fileName);
+	float lineCount = 0;
+	float avgCharCount = 0;
+	int y = 0;
+	for (std::string line; std::getline(fileStream, line);) {
+		if (line.size() > 0) { // way to overcome newlines
+			if (lineCount >= 1) { //exclude the first line because it contains the words to be searched
+				vector<char> temp;
+				for (char c : line) {
+
+					if (c != ',') {
+						temp.push_back(c);
+					}
+				}
+				charGrid.push_back(temp);
+			}
+			lineCount++;
+		}
+	}
+	return charGrid;
+}
+
+int testNine(const std::string& fileName) {
+	/*
+	Test Number 9:
+		Produce a dictionary => Key: char, Value: [[y,x],][y1,x1],[etc]]
+
+		ex:
+			testDic['a'] => [[1,1],[2,3],[etc]]
+
+		*case senstive 'a' != 'A'
+*/
+
+	std::map<char, std::vector<vector<int>>> testDic; 
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+
+	for (int y = 0; y < charGrid.size(); y++) {
+		for (int x = 0; x < charGrid[y].size(); x++) {
+
+			std::vector<int> temp;
+			temp.push_back(y);
+			temp.push_back(x);
+
+			testDic[charGrid[y][x]].push_back(temp);
+		}
+	}
+
+	/*this iterator below prints out the given key's contents
+		for (int y = 0; y < testDic['A'].size(); y++) {
+		for (int x = 0; x < testDic['A'][y].size(); x++) {
+			std::cout << testDic['A'][y][x]<<' ';
+		}
+		std::cout << endl;
+	}
+	
+	*/
+
+
+	return 0;
+}
 int main() {
 	string fileName = "input.txt";
 	/*
@@ -284,8 +349,10 @@ int main() {
 	std::cout << testFive(fileName) << std::endl;
 	std::cout << testSix(fileName) << std::endl;
 	std::cout << testSeven(fileName) << std::endl;
-	*/
 	std::cout << testEight(fileName) << std::endl;
+	*/
+	
+	std::cout << testNine(fileName) << std::endl;
 	
 	
 }
