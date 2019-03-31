@@ -553,7 +553,96 @@ int testEleven(const std::string& fileName) {
 	}
 	return 0;
 }
+int testTwelve(const std::string& fileName) {
+/*
+	Test Number Eleven:
+		Search vertically and print out results.
+*/
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
 
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+
+			//std::cout<< charDic['B'][i][0] << charDic['B'][i][1] << std::endl;
+
+			if ((posY + 1) - int(word.length()) > 0) { //search 'up'
+				std::string s = "";
+				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+
+				for (int y = 0; y < word.length(); y++) {
+					std::vector<int> temp;
+					
+					temp.push_back(posX);
+					temp.push_back(posY - y);
+
+					s.push_back(charGrid[posY-y][posX]);
+					positionCoord.push_back(temp);
+
+					//std::cout << charGrid[posY][posX-x] << std::endl;
+					//std::cout << posX<< std::endl;
+					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
+				}
+				if (s == word) {
+					wordPositionDic[word] = positionCoord;
+				}
+
+			}
+
+			if ((posY + 1) + int(word.length()) <= charGrid.size()) { //search right
+
+				std::string s = "";
+				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+				for (int y = 0; y < word.length(); y++) {
+					std::vector<int> temp;
+					
+					temp.push_back(posX);
+					temp.push_back(posY + y);
+
+					s.push_back(charGrid[posY+y][posX]);
+					positionCoord.push_back(temp);
+					//std::cout << charGrid[posY][posX + x] << std::endl;
+					//std::cout << posX<< std::endl;
+					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
+				}
+
+				if (s == word) {
+					wordPositionDic[word] = positionCoord;
+				}
+
+			}
+		}
+	}
+
+	for (auto const& item : wordPositionDic)
+	{
+
+		std::cout << "Found: " << item.first << std::endl; //accesing key
+
+
+		std::cout << "Positions:" << std::endl;
+
+		for (auto pos : item.second) {
+			std::cout << " (" << pos[0] << "," << pos[1] << ")";
+		}
+
+		std::cout << "\n" << endl;
+
+	}
+
+	if (wordPositionDic.size() > 0) {
+		return 1;
+	}
+	return 0;
+
+}
 int main() {
 	string fileName = "input.txt";
 	/*
@@ -567,8 +656,9 @@ int main() {
 	std::cout << testEight(fileName) << std::endl;
 	std::cout << testNine(fileName) << std::endl;
 	std::cout << testTen(fileName) << std::endl;
-	*/
 	std::cout << testEleven(fileName) << std::endl;
+	*/
+	std::cout << testTwelve(fileName) << std::endl;
 	
 	
 	
