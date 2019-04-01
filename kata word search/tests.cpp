@@ -160,7 +160,7 @@ int testSix(const std::string& fileName) {
 			// above variables will be used to split the line:
 			// line.substr(indexB:indexE)
 			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
-		std:string s;
+		std::string s;
 			int index = 0;
 			for (char c : line) {
 				//std::cout << c << std::endl;
@@ -212,7 +212,7 @@ vector<string>  getWordList(const std::string& fileName) {
 			// above variables will be used to split the line:
 			// line.substr(indexB:indexE)
 			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
-		std:string s;
+			std::string s;
 			int index = 0;
 			for (char c : line) {
 				//std::cout << c << std::endl;
@@ -331,8 +331,6 @@ vector< vector<char> > getCharGrid(const std::string& fileName) {
 	return charGrid;
 }
 
-
-
 int testNine(const std::string& fileName) {
 	/*
 	Test Number 9:
@@ -409,7 +407,6 @@ std::map<char, std::vector<vector<int>>> getCharDic(const std::string& fileName)
 }
 
 
-
 int testTen(const std::string& fileName) {
 	/*
 	Test Number 10:
@@ -463,10 +460,29 @@ int testTen(const std::string& fileName) {
 	}
 	return 0;
 }
-int testEleven(const std::string& fileName) {
+
+template<typename T>
+void printWordPositionDic(T wordPositionDic) {
+	for (auto const& item : wordPositionDic)
+	{
+
+		std::cout << "Found: " << item.first << std::endl; //accesing key
+
+
+		std::cout << "Positions:" << std::endl;
+
+		for (auto pos : item.second) {
+			std::cout << " (" << pos[0] << "," << pos[1] << ")";
+		}
+
+		std::cout << "\n" << endl;
+
+	}
+}
+int testSearchLeft(const std::string& fileName) {
 	/*
-	Test Number 11:
-		Search horizontally for every word and then print out found word's coordinates
+		TestSearchLeft:
+			Search horizontally left for word.
 	*/
 	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
 	std::vector< vector<char> > charGrid = getCharGrid(fileName);
@@ -480,82 +496,90 @@ int testEleven(const std::string& fileName) {
 
 			int posY = charDic[c][i][0];
 			int posX = charDic[c][i][1];
+			int left = 0;
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
 
-			//std::cout<< charDic['B'][i][0] << charDic['B'][i][1] << std::endl;
+			for (int x = 0; x < word.length(); x++) {
+				std::vector<int> temp;
+				left = posX - x;
 
-			if ((posX + 1) - int(word.length()) > 0) { //search left
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-
-				for (int x = 0; x < word.length(); x++) {
-					std::vector<int> temp;
+				if (left >= 0 and left < charGrid.size()) {
 					temp.push_back(posX - x);
 					temp.push_back(posY);
-
 					s.push_back(charGrid[posY][posX - x]);
 					positionCoord.push_back(temp);
-
-					//std::cout << charGrid[posY][posX-x] << std::endl;
-					//std::cout << posX<< std::endl;
-					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
 				}
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
 			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
+			}
+		}
+	}
 
 
-			if ((posX + 1) + int(word.length()) <= charGrid.size()) { //search right
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+}
 
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-				for (int x = 0; x < word.length(); x++) {
-					std::vector<int> temp;
+int testSearchRight(const std::string& fileName) {
+	/*
+	TestSearchRight:
+		Search horizontally right for word.
+	*/
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			int right = 0;
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+
+			for (int x = 0; x < word.length(); x++) {
+				std::vector<int> temp;
+				right = posX + x;
+				if (right >= 0 and right < int(charGrid.size())) {
+					
 					temp.push_back(posX + x);
 					temp.push_back(posY);
-
-					s.push_back(charGrid[posY][posX + x]);
+					s.push_back(charGrid[posY][right]);
 					positionCoord.push_back(temp);
-					//std::cout << charGrid[posY][posX + x] << std::endl;
-					//std::cout << posX<< std::endl;
-					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
+					
 				}
-
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
+			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
 			}
 		}
 	}
 
-	for (auto const& item : wordPositionDic)
-	{
 
-		std::cout << "Found: " << item.first << std::endl; //accesing key
-
-
-		std::cout << "Positions:" << std::endl;
-
-		for (auto pos : item.second) {
-			std::cout << " (" << pos[0] << "," << pos[1] << ")";
-		}
-
-		std::cout << "\n" << endl;
-
-	}
 
 	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
 		return 1;
 	}
 	return 0;
+
 }
-int testTwelve(const std::string& fileName) {
+
+int testSearchUp(const std::string& fileName) {
 	/*
-		Test Number Eleven:
-			Search vertically and print out results.
+	TestSearchUp:
+		Search vertically up for word.
 	*/
+
 	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
 	std::vector< vector<char> > charGrid = getCharGrid(fileName);
 	vector<string> wordList = getWordList(fileName);
@@ -568,288 +592,286 @@ int testTwelve(const std::string& fileName) {
 
 			int posY = charDic[c][i][0];
 			int posX = charDic[c][i][1];
+			int up = 0;
+		
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
 
-			//std::cout<< charDic['B'][i][0] << charDic['B'][i][1] << std::endl;
+			for (int y = 0; y < word.length(); y++) {
+				std::vector<int> temp;
+				up = posY - y;
 
-			if ((posY + 1) - int(word.length()) > 0) { //search 'up'
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-
-				for (int y = 0; y < word.length(); y++) {
-					std::vector<int> temp;
-
+				if (up >= 0 and up < charGrid.size()) {
 					temp.push_back(posX);
-					temp.push_back(posY - y);
+					temp.push_back(up);
 
-					s.push_back(charGrid[posY - y][posX]);
+					s.push_back(charGrid[up][posX]);
 					positionCoord.push_back(temp);
 
 					//std::cout << charGrid[posY][posX-x] << std::endl;
 					//std::cout << posX<< std::endl;
 					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
 				}
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
 			}
-
-			if ((posY + 1) + int(word.length()) <= charGrid.size()) { //search down
-
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-				for (int y = 0; y < word.length(); y++) {
-					std::vector<int> temp;
-
-					temp.push_back(posX);
-					temp.push_back(posY + y);
-
-					s.push_back(charGrid[posY + y][posX]);
-					positionCoord.push_back(temp);
-					//std::cout << charGrid[posY][posX + x] << std::endl;
-					//std::cout << posX<< std::endl;
-					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
-				}
-
-				if (s == word) {
+			if (s == word) {
 					wordPositionDic[word] = positionCoord;
-				}
-
 			}
 		}
-	}
-
-	for (auto const& item : wordPositionDic)
-	{
-
-		std::cout << "Found: " << item.first << std::endl; //accesing key
-
-
-		std::cout << "Positions:" << std::endl;
-
-		for (auto pos : item.second) {
-			std::cout << " (" << pos[0] << "," << pos[1] << ")";
-		}
-
-		std::cout << "\n" << endl;
-
 	}
 
 	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
 		return 1;
 	}
 	return 0;
-
 }
-int testThirteen(const std::string& fileName) {
+
+int testSearchDown(const std::string& fileName) {
 	/*
-	Test Number 13:
-		Search diagonally and then print out the results
+	TestSearchUp:
+		Search vertically down for word.
+	*/
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			int up = 0;
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+			for (int y = 0; y < word.length(); y++) {
+				std::vector<int> temp;
+				up = posY + y;
+				if (up >= 0 and up < charGrid.size()) {
+					temp.push_back(posX);
+					temp.push_back(up);
+					s.push_back(charGrid[up][posX]);
+					positionCoord.push_back(temp);
+				}
+			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
+			}
+		}
+	}
+
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+}
+
+
+int testSearchUpLeft(const std::string& fileName) {
+	/*
+		Search up and left diagonally
 	*/
 
-	/*
-	Did some quick analysis and discovered that certain conditions has to be met to search diagonally:
-		* ~ means the direction of the arrow
-		up-left: can only occur if there is 'space' in up and left directions
-		~
-			X
-				X
-					X
-		up-right: if up AND right
-
-					~
-				X
-			X
-		X
-		down-left: if down AND left
-					X
-				X
-			X
-		~
-		down-right: if down AND right
-		X
-			X
-				X
-					~
-	Up:
-		if ((posY + 1) - int(word.length()) > 0)
-	Down:
-		if ((posY + 1) + int(word.length()) <= charGrid.size())
-	Left:
-		if ((posX + 1) - int(word.length()) > 0) { //search left
-	Right
-		if ((posX + 1) + int(word.length()) <= charGrid.size()) { //search right
-
-	int up = (posY + 1) - int(word.length());
-	int down =  (posY + 1) + int(word.length());
-	int left = (posX + 1) - int(word.length());
-	int right = (posX + 1) + int(word.length());
-	Up-Left:
-		if (up >= 0 and left >= 0))  //search left
-	Up-Right:
-		if (up >= 0 and right <= charGrid.size())
-	Down-Left:
-		if (down <= charGrid.size() and left >= 0) { //search left
-	Down-Right:
-		if (down <= charGrid.size() and right <= charGrid.size()) { //search right
-	*/
 
 	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
 	std::vector< vector<char> > charGrid = getCharGrid(fileName);
 	vector<string> wordList = getWordList(fileName);
 
 	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
-	/*
-	for (auto word : wordList) {
-		std::cout << word << std::endl;
-	}
-	std::cout << "finished showing words to be searched" << std::endl;
-	*/
+
 	for (auto word : wordList) {
 		char c = word[0];
 		for (int i = 0; i < charDic[c].size(); i++) {
-
-
-
 			int posY = charDic[c][i][0];
 			int posX = charDic[c][i][1];
-
-			int up = (posY + 1) - int(word.length());
-			int down = (posY + 1) + int(word.length());
-
-			int left = (posX + 1) - int(word.length());
-			int right = (posX + 1) + int(word.length());
-
-
 			//search 'up' and "left' diagonally
-			if (up >= 0 and left >= 0) {
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+			int up = 0;
+			int left = 0;
 
-				for (int k = 0; k < word.length(); k++) {
-					std::vector<int> temp;
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
 
-					temp.push_back(posX - k);
-					temp.push_back(posY - k);
+			for (int k = 0; k < word.length(); k++) {
+				std::vector<int> temp;
 
-					s.push_back(charGrid[posY - k][posX - k]);
+				up = posY - k;
+				left = posX - k;
+				if (up >= 0 and up < charGrid.size() and left >= 0 and left < charGrid.size()) {
+					temp.push_back(left);
+					temp.push_back(up);
+
+					s.push_back(charGrid[up][left]);
 					positionCoord.push_back(temp);
-					/* std::cout << charGrid[posY - k][posX - k] << std::endl;
-					std::cout << posX - k << std::endl;
-					std::cout << posY - k << std::endl; */
-
-				}
-				//std::cout<<s<<std::endl;
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
 				}
 
 			}
-
-			//search 'up' and "right' diagonally
-			if (up > 0 and right <= charGrid.size()) { //search right
-
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-				for (int k = 0; k < word.length(); k++) {
-					std::vector<int> temp;
-
-					temp.push_back(posX + k);
-					temp.push_back(posY - k);
-
-					s.push_back(charGrid[posY - k][posX + k]);
-					positionCoord.push_back(temp);
-					/*					std::cout << charGrid[posY - k][posX + k] << std::endl;
-					std::cout << posX + k << std::endl;
-					std::cout << posY - k << std::endl;*/
-
-				}
-				//std::cout << s << std::endl;
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
-			}
-
-			//search 'down' and 'left' diagonally
-			if (down <= charGrid.size() and left >= 0) {
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-
-				for (int k = 0; k < word.length(); k++) {
-					std::vector<int> temp;
-					int x = posX - k;
-					int y = posY + k;
-					temp.push_back(x);
-					temp.push_back(y);
-
-					s.push_back(charGrid[y][x]);
-					positionCoord.push_back(temp);
-					/* std::cout << charGrid[posY - k][posX - k] << std::endl;
-					std::cout << posX - k << std::endl;
-					std::cout << posY - k << std::endl; */
-
-				}
-				//std::cout<<s<<std::endl;
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
-			}
-
-			//search 'down' and 'right' diagonally
-			if (down <= charGrid.size() and right <= charGrid.size()) {
-				std::string s = "";
-				std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
-
-				for (int k = 0; k < word.length(); k++) {
-					std::vector<int> temp;
-					int x = posX + k;
-					int y = posY + k;
-					temp.push_back(x);
-					temp.push_back(y);
-
-					s.push_back(charGrid[y][x]);
-					positionCoord.push_back(temp);
-					/* std::cout << charGrid[posY - k][posX - k] << std::endl;
-					std::cout << posX - k << std::endl;
-					std::cout << posY - k << std::endl; */
-
-				}
-				//std::cout<<s<<std::endl;
-				if (s == word) {
-					wordPositionDic[word] = positionCoord;
-				}
-
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
 			}
 		}
 	}
-
-	for (auto const& item : wordPositionDic)
-	{
-
-		std::cout << "Found: " << item.first << std::endl; //accesing key
-
-
-		std::cout << "Positions:" << std::endl;
-
-		for (auto pos : item.second) {
-			std::cout << " (" << pos[0] << "," << pos[1] << ")";
-		}
-
-		std::cout << "\n" << endl;
-
-	}
-
 	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+
+}
+int testSearchUpRight(const std::string& fileName) {
+	/*
+		Search up and right diagonally
+	*/
+
+
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			//search 'up' and "left' diagonally
+			int up = 0;
+			int right = 0;
+
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+
+			for (int k = 0; k < word.length(); k++) {
+				std::vector<int> temp;
+
+				up = posY - k;
+				right = posX + k;
+				if (up >= 0 and up < charGrid.size() and right >= 0 and right < charGrid.size()) {
+					temp.push_back(right);
+					temp.push_back(up);
+
+					s.push_back(charGrid[up][right]);
+					positionCoord.push_back(temp);
+				}
+	
+			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
+			}
+		}
+	}
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+}
+
+
+int testSearchDownRight(const std::string& fileName) {
+	/*
+	Search down and left diagonally
+*/
+
+
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			//search 'up' and "left' diagonally
+			int down = 0;
+			int left = 0;
+
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+
+			for (int k = 0; k < word.length(); k++) {
+				std::vector<int> temp;
+
+				down = posY + k;
+				left = posX - k;
+				if (down >= 0 and down < charGrid.size() and left >= 0 and left < charGrid.size()) {
+					temp.push_back(left);
+					temp.push_back(down);
+
+					s.push_back(charGrid[down][left]);
+					positionCoord.push_back(temp);
+				}
+
+			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
+			}
+		}
+	}
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
 		return 1;
 	}
 	return 0;
 
 }
 
+int testSearchDownLeft(const std::string& fileName) {
+	/*
+	Search down and left diagonally
+*/
+
+
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			//search 'up' and "left' diagonally
+			int down = 0;
+			int right = 0;
+
+			std::string s = "";
+			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
+
+			for (int k = 0; k < word.length(); k++) {
+				std::vector<int> temp;
+
+				down = posY + k;
+				right = posX + k;
+				if (down >= 0 and down < charGrid.size() and right >= 0 and right < charGrid.size()) {
+					temp.push_back(right);
+					temp.push_back(down);
+
+					s.push_back(charGrid[down][right]);
+					positionCoord.push_back(temp);
+				}
+
+			}
+			if (s == word) {
+				wordPositionDic[word] = positionCoord;
+			}
+		}
+	}
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+
+}
 int main() {
-	string fileName = "input.txt";
+	string fileName = "input3.txt";
 	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
@@ -861,12 +883,14 @@ int main() {
 	std::cout << testEight(fileName) << std::endl;
 	std::cout << testNine(fileName) << std::endl;
 	std::cout << testTen(fileName) << std::endl;
-	std::cout << testEleven(fileName) << std::endl;
-	std::cout << testTwelve(fileName) << std::endl;
-	std::cout << testThirteen(fileName) << std::endl;
-
 	*/
-
-
-	std::cout << testEight(fileName) << std::endl;
+	std::cout << testSearchLeft(fileName) << std::endl;
+	std::cout << testSearchRight(fileName) << std::endl;
+	std::cout << testSearchUp(fileName) << std::endl;
+	std::cout << testSearchDown(fileName) << std::endl;
+	std::cout << testSearchUpLeft(fileName) << std::endl;
+	std::cout << testSearchUpRight(fileName) << std::endl;
+	std::cout << testSearchDownLeft(fileName) << std::endl;
+	std::cout << testSearchDownRight(fileName) << std::endl;
+	
 }

@@ -1,17 +1,17 @@
 
-APPLES,BUILDINGS,CAT,DOGS,OSCILLATIONS,TURD
-U S C K N L R V V S X J U E P 
-I C A Y V E E I G G E E J J J 
-S G N I D L I U B O H L C M P 
-C A T R J Q L X A D N O P T O 
-M W U P P F N K Z L S W W P P 
-A T G P X R Q R L C I H Y Z A 
-T A Z N M H A Z I W C C P O L 
-U H E T X K A L X I O M C O Z 
-D J Z Y R Z L W I N N F U E P 
-Y U O Q T A D O W N P B W M B 
-X Y N L T O A Q J K T Q U Y W 
-J Y U I O S P A Q I J Y I H Q 
-V S O E I G H E E H W W E G M 
-V N G O X N I Y D W K T F N Z 
-S O I T X F E I I U J A Q D P 
+APPLES,BUILDING,DOGS,OSCILLATIONS,TURD
+V M A D F T U R D N Y U E V M 
+V E T C B N X E I L S G G D H 
+E J K C C R N M Y N E V I L I 
+Z J Y D Y P G D F A L Y R X C 
+L E V K J F I N D V P D X R N 
+K J W R U R Q M I M P R S J O 
+K W A R H B F Z A D A E D L C 
+U Z E L G N G G X J L N G W B 
+Y V T P Y A S I F D V I V O A 
+S N O I T A L L I C S O U Q E 
+E K C O S C M K A W B O K B M 
+H V Q G Q L R I E J S K T H B 
+G W O E Y Y Y A Q Q W K H N S 
+M D N U P D T S A H F N E Q A 
+T S M K P U U F Z B T B F I K 
