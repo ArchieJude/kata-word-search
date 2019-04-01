@@ -640,16 +640,16 @@ int testSearchDown(const std::string& fileName) {
 		for (int i = 0; i < charDic[c].size(); i++) {
 			int posY = charDic[c][i][0];
 			int posX = charDic[c][i][1];
-			int up = 0;
+			int down = 0;
 			std::string s = "";
 			std::vector< vector<int> > positionCoord; //[[x,y],[x1,y1],[x2,y2]...]
 			for (int y = 0; y < word.length(); y++) {
 				std::vector<int> temp;
-				up = posY + y;
-				if (up >= 0 and up < charGrid.size()) {
+				down = posY + y;
+				if (down >= 0 and down < charGrid.size()) {
 					temp.push_back(posX);
-					temp.push_back(up);
-					s.push_back(charGrid[up][posX]);
+					temp.push_back(down);
+					s.push_back(charGrid[down][posX]);
 					positionCoord.push_back(temp);
 				}
 			}
@@ -769,7 +769,7 @@ int testSearchUpRight(const std::string& fileName) {
 }
 
 
-int testSearchDownRight(const std::string& fileName) {
+int testSearchDownLeft(const std::string& fileName) {
 	/*
 	Search down and left diagonally
 */
@@ -820,9 +820,9 @@ int testSearchDownRight(const std::string& fileName) {
 
 }
 
-int testSearchDownLeft(const std::string& fileName) {
+int testSearchDownRight(const std::string& fileName) {
 	/*
-	Search down and left diagonally
+	Search down and right diagonally
 */
 
 
@@ -870,8 +870,184 @@ int testSearchDownLeft(const std::string& fileName) {
 	return 0;
 
 }
+
+int testSearch(const std::string& fileName) {
+	/*
+	Implement all the search techniques.
+	*/
+
+
+	std::map<char, std::vector<vector<int>>> charDic = getCharDic(fileName);
+	std::vector< vector<char> > charGrid = getCharGrid(fileName);
+	vector<string> wordList = getWordList(fileName);
+
+	std::map<std::string, std::vector<vector<int>>> wordPositionDic; // {"kirk":[[x1,y1],[x2,y2],[x3,y3]..]}
+
+	for (auto word : wordList) {
+		char c = word[0];
+		for (int i = 0; i < charDic[c].size(); i++) {
+			int posY = charDic[c][i][0];
+			int posX = charDic[c][i][1];
+			//search 'up' and "left' diagonally
+			int up = 0;
+			int down = 0;
+			int left = 0;
+			int right = 0;
+
+			std::string sRight = "";
+			std::string sLeft = "";
+
+			std::string sUp = "";
+			std::string sDown = "";
+
+			std::string sUpRight = "";
+			std::string sUpLeft = "";
+
+			std::string sDownRight = "";
+			std::string sDownLeft = "";
+
+
+
+			std::vector< vector<int> > rightXY; //[[x,y],[x1,y1],[x2,y2]...]
+			std::vector< vector<int> > leftXY; //[[x,y],[x1,y1],[x2,y2]...]
+
+			std::vector< vector<int> > upXY; //[[x,y],[x1,y1],[x2,y2]...]
+			std::vector< vector<int> > downXY; //[[x,y],[x1,y1],[x2,y2]...]
+
+			std::vector< vector<int> > upRightXY; //[[x,y],[x1,y1],[x2,y2]...]
+			std::vector< vector<int> > upLeftXY; //[[x,y],[x1,y1],[x2,y2]...]
+
+			std::vector< vector<int> > downRightXY; //[[x,y],[x1,y1],[x2,y2]...]
+			std::vector< vector<int> > downLeftXY; //[[x,y],[x1,y1],[x2,y2]...]
+
+			for (int k = 0; k < word.length(); k++) {
+				
+				std::vector<int> tempRight;
+				std::vector<int> tempLeft;
+
+				std::vector<int> tempUp;
+				std::vector<int> tempDown;
+				
+				std::vector<int> tempUpRight;
+				std::vector<int> tempUpLeft;
+
+				std::vector<int> tempDownRight;
+				std::vector<int> tempDownLeft;
+
+				up = posY - k;
+				down = posY + k;
+				right = posX + k;
+				left = posX - k;
+				//right
+
+				if (right >= 0 and right < int(charGrid.size())) {
+
+					tempRight.push_back(right);
+					tempRight.push_back(posY);
+					sRight.push_back(charGrid[posY][right]);
+					rightXY.push_back(tempRight);
+
+				}
+				//left
+				if (left >= 0 and left < charGrid.size()) {
+					tempLeft.push_back(left);
+					tempLeft.push_back(posY);
+					sLeft.push_back(charGrid[posY][left]);
+					leftXY.push_back(tempLeft);
+				}
+				//up
+				if (up >= 0 and up < charGrid.size()) {
+					tempUp.push_back(posX);
+					tempUp.push_back(up);
+
+					sUp.push_back(charGrid[up][posX]);
+					upXY.push_back(tempUp);
+
+					//std::cout << charGrid[posY][posX-x] << std::endl;
+					//std::cout << posX<< std::endl;
+					//std::cout << (posX + 1) - int(wordList[0].length()) << std::endl;
+				}
+				//down
+				if (down >= 0 and down < charGrid.size()) {
+					tempDown.push_back(posX);
+					tempDown.push_back(down);
+
+					sDown.push_back(charGrid[down][posX]);
+					downXY.push_back(tempDown);
+				}
+				//up-right
+				if (up >= 0 and up < charGrid.size() and right >= 0 and right < charGrid.size()) {
+					tempUpRight.push_back(right);
+					tempUpRight.push_back(up);
+
+					sUpRight.push_back(charGrid[up][right]);
+					upRightXY.push_back(tempUpRight);
+				}
+				//up-left
+				if (up >= 0 and up < charGrid.size() and left >= 0 and left < charGrid.size()) {
+					tempUpLeft.push_back(left);
+					tempUpLeft.push_back(up);
+
+					sUpLeft.push_back(charGrid[up][left]);
+					upLeftXY.push_back(tempUpLeft);
+				}
+				
+			
+				//down-right diagonal
+				if (down >= 0 and down < charGrid.size() and right >= 0 and right < charGrid.size()) {
+					tempDownRight.push_back(right);
+					tempDownRight.push_back(down);
+
+					sDownRight.push_back(charGrid[down][right]);
+					downRightXY.push_back(tempDownRight);
+				}
+
+				
+				//down-left diagonal
+				if (down >= 0 and down < charGrid.size() and left >= 0 and left < charGrid.size()) {
+					tempDownLeft.push_back(left);
+					tempDownLeft.push_back(down);
+
+					sDownLeft.push_back(charGrid[down][left]);
+					downLeftXY.push_back(tempDownLeft);
+				}
+			}
+			if (sRight == word) {
+				wordPositionDic[word] = upXY;
+			}
+			if (sLeft == word) {
+				wordPositionDic[word] = downXY;
+			}
+
+			if (sUp== word) {
+				wordPositionDic[word] = upXY;
+			}
+			if (sDown == word) {
+				wordPositionDic[word] = downXY;
+			}
+			if (sUpRight == word) {
+				wordPositionDic[word] = upRightXY;
+			}
+			if (sUpLeft == word) {
+				wordPositionDic[word] = upLeftXY;
+			}
+			if (sDownRight == word) {
+				wordPositionDic[word] = downRightXY;
+			}
+			if (sDownLeft == word) {
+				wordPositionDic[word] = downLeftXY;
+			}
+		}
+	}
+	if (wordPositionDic.size() > 0) {
+		printWordPositionDic(wordPositionDic);
+		return 1;
+	}
+	return 0;
+
+}
 int main() {
-	string fileName = "input3.txt";
+	string fileName = "input.txt";
 	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
@@ -883,7 +1059,6 @@ int main() {
 	std::cout << testEight(fileName) << std::endl;
 	std::cout << testNine(fileName) << std::endl;
 	std::cout << testTen(fileName) << std::endl;
-	*/
 	std::cout << testSearchLeft(fileName) << std::endl;
 	std::cout << testSearchRight(fileName) << std::endl;
 	std::cout << testSearchUp(fileName) << std::endl;
@@ -892,5 +1067,7 @@ int main() {
 	std::cout << testSearchUpRight(fileName) << std::endl;
 	std::cout << testSearchDownLeft(fileName) << std::endl;
 	std::cout << testSearchDownRight(fileName) << std::endl;
-	
+
+	*/
+	std::cout << testSearch(fileName) << std::endl;
 }
