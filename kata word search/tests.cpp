@@ -1013,10 +1013,10 @@ int testSearch(const std::string& fileName) {
 				}
 			}
 			if (sRight == word) {
-				wordPositionDic[word] = upXY;
+				wordPositionDic[word] = rightXY;
 			}
 			if (sLeft == word) {
-				wordPositionDic[word] = downXY;
+				wordPositionDic[word] = leftXY;
 			}
 
 			if (sUp== word) {
@@ -1047,7 +1047,7 @@ int testSearch(const std::string& fileName) {
 
 }
 int main() {
-	string fileName = "input.txt";
+	string fileName = "input4.txt";
 	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
