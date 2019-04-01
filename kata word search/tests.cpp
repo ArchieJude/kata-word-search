@@ -217,7 +217,7 @@ vector<string>  getWordList(const std::string& fileName) {
 			for (char c : line) {
 				//std::cout << c << std::endl;
 				if (isalpha(c)) {
-					s.push_back(c);
+					s.push_back(toupper(c));
 				}
 				else if (isalpha(c) == false) {
 					//std::cout << s << std::endl;
@@ -320,7 +320,7 @@ vector< vector<char> > getCharGrid(const std::string& fileName) {
 				for (char c : line) {
 
 					if (isalpha(c)) {
-						temp.push_back(c);
+						temp.push_back(char(toupper(c)));
 					}
 				}
 				charGrid.push_back(temp);
@@ -466,10 +466,7 @@ void printWordPositionDic(T wordPositionDic) {
 	for (auto const& item : wordPositionDic)
 	{
 
-		std::cout << "Found: " << item.first << std::endl; //accesing key
-
-
-		std::cout << "Positions:" << std::endl;
+		std::cout << item.first <<":"; //accesing key
 
 		for (auto pos : item.second) {
 			std::cout << " (" << pos[0] << "," << pos[1] << ")";
@@ -1046,8 +1043,9 @@ int testSearch(const std::string& fileName) {
 	return 0;
 
 }
+
 int main() {
-	string fileName = "input4.txt";
+	string fileName = "input5.txt";
 	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
@@ -1067,6 +1065,7 @@ int main() {
 	std::cout << testSearchUpRight(fileName) << std::endl;
 	std::cout << testSearchDownLeft(fileName) << std::endl;
 	std::cout << testSearchDownRight(fileName) << std::endl;
+	std::cout << testSearch(fileName) << std::endl;
 
 	*/
 	std::cout << testSearch(fileName) << std::endl;
