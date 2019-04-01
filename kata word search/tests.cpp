@@ -149,7 +149,6 @@ int testSix(const std::string& fileName) {
 	fstream fileStream;
 	fileStream.open(fileName);
 	vector<string> wordList; //this will hold words to be looked for.
-
 	for (std::string line; std::getline(fileStream, line);) {
 		/*
 		std::cout << line<<" ";
@@ -161,14 +160,11 @@ int testSix(const std::string& fileName) {
 			// above variables will be used to split the line:
 			// line.substr(indexB:indexE)
 			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
-
-			std:string s;
+		std:string s;
 			int index = 0;
 			for (char c : line) {
 				//std::cout << c << std::endl;
-				
-
-				if  (isalpha(c) ) {
+				if (isalpha(c)) {
 					s.push_back(c);
 				}
 				else if (isalpha(c) == false) {
@@ -177,19 +173,13 @@ int testSix(const std::string& fileName) {
 					s = "";
 
 				}
-				if(index == line.length() - 1){
+				if (index == line.length() - 1) {
 					wordList.push_back(s);
 					s = "";
 				}
-				
 				index++;
-	
-				
 			}
-
 		}
-
-		
 		if (wordList.size() != 0) { // this line stops the loop from continuing when the search words are extracted.
 
 			for (auto item : wordList) {
@@ -199,11 +189,56 @@ int testSix(const std::string& fileName) {
 
 			return 1;
 		}
-		
-
 	}
-
 	return 0;
+}
+
+vector<string>  getWordList(const std::string& fileName) {
+	/*
+	findWordList:
+		returns the a list that contains the words to be searched.
+	*/
+	fstream fileStream;
+	fileStream.open(fileName);
+	vector<string> wordList; //this will hold words to be looked for.
+	for (std::string line; std::getline(fileStream, line);) {
+		/*
+		std::cout << line<<" ";
+		std::cout << line.size() << std::endl;
+		*/
+		if (line.length() > 0) { // way to overcome newlines
+			int indexS = 0; //index start
+			int indexE = 0; //index end
+			// above variables will be used to split the line:
+			// line.substr(indexB:indexE)
+			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
+		std:string s;
+			int index = 0;
+			for (char c : line) {
+				//std::cout << c << std::endl;
+				if (isalpha(c)) {
+					s.push_back(c);
+				}
+				else if (isalpha(c) == false) {
+					//std::cout << s << std::endl;
+					wordList.push_back(s);
+					s = "";
+
+				}
+				if (index == line.length() - 1) {
+					wordList.push_back(s);
+					s = "";
+				}
+				index++;
+			}
+		}
+		if (wordList.size() != 0) { // this line stops the loop from continuing when the search words are extracted.
+			return wordList;
+		}
+	}
+	return wordList;
+
+
 
 }
 
@@ -252,7 +287,7 @@ int testEight(const std::string& fileName) {
 				std::vector<char> temp;
 				for (char c : line) {
 
-					if (c != ',') {
+					if (isalpha(c)) {
 						temp.push_back(c);
 					}
 				}
@@ -284,7 +319,7 @@ vector< vector<char> > getCharGrid(const std::string& fileName) {
 				vector<char> temp;
 				for (char c : line) {
 
-					if (c != ',') {
+					if (isalpha(c)) {
 						temp.push_back(c);
 					}
 				}
@@ -374,56 +409,7 @@ std::map<char, std::vector<vector<int>>> getCharDic(const std::string& fileName)
 }
 
 
-vector<string>  getWordList(const std::string& fileName) {
-	/*
-	findWordList:
-		returns the a list that contains the words to be searched.
-	*/
-	fstream fileStream;
-	fileStream.open(fileName);
-	vector<string> wordList; //this will hold words to be looked for.
 
-	for (std::string line; std::getline(fileStream, line);) {
-		/*
-		std::cout << line<<" ";
-		std::cout << line.size() << std::endl;
-		*/
-		if (line.size() > 0) { // way to overcome newlines
-			int indexS = 0; //index start
-			int indexE = 0; //index end
-			// above variables will be used to split the line:
-			// line.substr(indexB:indexE)
-			// Or... I can use strtok http://www.cplusplus.com/reference/cstring/strtok/
-
-			for (char c : line) {
-				//std::cout << c << std::endl;
-
-				if (c == ',') {
-					//std::cout << line.substr(indexS, indexE-indexS) << std::endl;
-					//std::cout << line.substr(indexS, indexE) << std::endl;
-					wordList.push_back(line.substr(indexS, indexE - indexS));
-					indexS = indexE + 1;
-				}
-
-				else if (c == line.back()) { // this is needed to detect the last word because the last word doesn't have a comma.
-					wordList.push_back(line.substr(indexS, indexE - indexS + 1));
-
-				}
-
-				indexE++;
-
-			}
-
-		}
-
-		if (wordList.size() != 0) { // this line stops the loop from continuing when the search words are extracted.
-			return wordList;
-		}
-	}
-
-
-
-}
 int testTen(const std::string& fileName) {
 	/*
 	Test Number 10:
@@ -863,7 +849,7 @@ int testThirteen(const std::string& fileName) {
 }
 
 int main() {
-	string fileName = "input2.txt";
+	string fileName = "input.txt";
 	/*
 	std::cout << fileExist(fileName) << std::endl;
 	std::cout << fileOpen(fileName) << std::endl;
@@ -882,5 +868,5 @@ int main() {
 	*/
 
 
-	std::cout << testSix(fileName) << std::endl;
+	std::cout << testEight(fileName) << std::endl;
 }
