@@ -118,7 +118,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="program1.cpp" />
+    <ClCompile Include="WordSearch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WordSearch.h" />
