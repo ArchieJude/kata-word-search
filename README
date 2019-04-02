@@ -1,5 +1,7 @@
 The main file to run is program1.cpp and that's wehre you can alter the fileName. I have included 4 word puzzles: input.txt, input2.txt, input3.txt, and input4.txt
 
+The solution is printed out and it's written on to a text file named solutions.txt
+
 If you want to run your own puzzle then just create a new text file in the same folder as the rest of the other puzzles "inputs" and then update the fileName in program1.cpp
 
 I have a made a function that runs all the other functions called runAllTests.
