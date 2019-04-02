@@ -1,0 +1,23 @@
+The main file to run is program1.cpp and that's wehre you can alter the fileName. I have included 4 word puzzles: input.txt, input2.txt, input3.txt, and input4.txt
+
+If you want to run your own puzzle then just create a new text file in the same folder as the rest of the other puzzles "inputs" and then update the fileName in program1.cpp
+
+I have a made a function that runs all the other functions called runAllTests.
+
+Highlights:
+  To me the most important part of my algorithm is that it's efficient in searching words. That was the goal when I took this challenge. 
+  I realized that if I were to run nested loops and brute checking all the possible combinations against the words then it will be roughly around O(n^2).
+  The way I made the search efficient is by first sorting and cataloging each character's position into a dictionary.
+  Then, I am using the char’s position as a starting point to search for words. For example:
+
+  charPositionDictionary = {‘a’;[[1,2],[7,5],[,4,6]],b’;[[1,3],[5,5],[,7,6]],‘c’;[[2,5],[8,2],[,4,2]]...etc}
+  
+  If the word starts with letter 'a' then I am using the dictionary to get all the possible starting coordinates.
+  Then I am checking left,right,up,down,and diagonally.
+  
+  I believe the worst case is O(n) and best is O(logn).
+  
+  This project was the first time that I have practiced TDD and I liked it. The general solution to solving a big problem is divide and conquer.
+  However, it's easier said than done. So, TDD was like a blueprint that guided me on HOW to divide and conquer the problem. 
+  
+ 
